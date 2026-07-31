@@ -1,0 +1,84 @@
+import { MoveDownRightIcon } from 'lucide-react'
+import ClassicTemplate from './templates/ClassicTemplate'
+import ModernTemplate from './templates/ModernTemplate'
+import MinimalTemplate from './templates/MinimalTemplate'
+import MinimalImageTemplate from './templates/MinimalImageTemplate'
+import React from 'react'
+
+const ResumePreview = ({data,template,accentColor,classes=""}) => {
+   
+  const renderTemplate = () => {
+  switch (template) {
+    case "modern":
+      return (
+        <ModernTemplate
+          data={data}
+          accentColor={accentColor}
+        />
+      );
+
+    case "minimal":
+      return (
+        <MinimalTemplate
+          data={data}
+          accentColor={accentColor}
+        />
+      );
+
+    case "minimal-image":
+      return (
+        <MinimalImageTemplate
+          data={data}
+          accentColor={accentColor}
+        />
+      );
+
+    default:
+      return (
+        <ClassicTemplate
+          data={data}
+          accentColor={accentColor}
+        />
+      );
+  }
+};
+ 
+    return (
+    <div className='w-full bg-gray-100'>
+     <div id="resume-preview" className={'border border-gray-200 print:shadow-none print:border-none' +classes}>
+        {renderTemplate()}
+     </div>
+     <style jsx>
+        {`
+        @page {
+        size:letter;
+        margin:0;}
+        @media print{
+        htmlmbody{
+        width:8.5in;
+        height:11in;
+        overflow:hidden;}
+        body *
+        {
+        visibility:hidden;
+        }
+        #resume-preview,#resume-preview *{
+         visibility:visible;
+        }
+         #resume-preview{
+         position:absolute;
+         left:0;
+          top:0;
+          width:100%;
+          heigt:auto;
+          margin:0;
+          padding:0;
+          box-shadow:none !important;
+          border:none !important;}}
+        `}
+     </style>
+    </div>
+  )
+}
+
+export default ResumePreview
