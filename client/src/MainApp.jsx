@@ -5,10 +5,10 @@ import { Toaster } from "react-hot-toast";
 
 import Home from "./pages/Home.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
-import ResumeBuilder from "./pages/ResumeBuilder";
-import Preview from "./pages/Preview";
-import Login from "./pages/Login";
-import Layout from "./pages/Layout";
+import ResumeBuilder from "./pages/ResumeBuilder.jsx";
+import Preview from "./pages/Preview.jsx";
+import Login from "./pages/Login.jsx";
+import Layout from "./pages/Layout.jsx";
 
 import api from "./configs/api.js";
 import { login, setLoading } from "./app/features/authSlice.js";
