@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { Toaster } from "react-hot-toast";
 
 import Home from "./pages/Home.jsx";
-import Dashboard from "./pages/dashboard";
+import Dashboard from "./pages/Dashboard.jsx";
 import ResumeBuilder from "./pages/ResumeBuilder";
 import Preview from "./pages/Preview";
 import Login from "./pages/Login";
