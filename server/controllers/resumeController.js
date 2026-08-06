@@ -120,29 +120,30 @@ export const getPublicResumeById = async (req, res) => {
 // PUT: /api/resume/update/:resumeId
 export const updateResume = async (req, res) => {
   try {
-    console.log("Incoming Body:", req.body); // 👈 Yeh add karein
-    console.log("Incoming File:", req.file); // 👈 Yeh bhi
+    console.log("Incoming Body:", req.body);
+    console.log("Incoming File:", req.file);
+    
     const userId = req.userId;
     const { resumeId } = req.params;
     const { resumeData, removeBackground } = req.body;
     const image = req.file;
 
-   
-let resumeDataCopy = {};
+    let resumeDataCopy = {};
     if (resumeData) {
       resumeDataCopy = typeof resumeData === 'string' 
         ? JSON.parse(resumeData) 
         : structuredClone(resumeData);
     }
 
-    // 🔥 Fix: Dono fields (fullName aur full_name) ko sync kar do taaki khali na rahe
+    // 🔥 Schema Fix: Ensure strict mapping to Mongoose Schema (`fullName`)
     if (resumeDataCopy.personal_info) {
-      if (resumeDataCopy.personal_info.full_name && !resumeDataCopy.personal_info.fullName) {
-        resumeDataCopy.personal_info.fullName = resumeDataCopy.personal_info.full_name;
-      } else if (resumeDataCopy.personal_info.fullName && !resumeDataCopy.personal_info.full_name) {
-        resumeDataCopy.personal_info.full_name = resumeDataCopy.personal_info.fullName;
-      }
+      const correctName = resumeDataCopy.personal_info.fullName || resumeDataCopy.personal_info.full_name || "Aditi Chugh";
+      resumeDataCopy.personal_info.fullName = correctName;
+      
+      // Delete the extra underscore field so MongoDB doesn't save unwanted keys
+      delete resumeDataCopy.personal_info.full_name;
     }
+
     // Security: Prevent users from overriding critical database fields
     delete resumeDataCopy.userId;
     delete resumeDataCopy._id;
@@ -172,7 +173,7 @@ let resumeDataCopy = {};
       fs.unlinkSync(image.path);
     }
 
-    // 🔥 Fix: Flatten nested personal_info fields using dot notation for MongoDB
+    // 🔥 Flatten nested personal_info fields using dot notation for MongoDB
     let updateFields = {};
     for (let key in resumeDataCopy) {
       if (key === 'personal_info' && typeof resumeDataCopy.personal_info === 'object') {
@@ -188,7 +189,7 @@ let resumeDataCopy = {};
       { _id: resumeId, userId },
       { $set: updateFields }, 
       {
-        new: true,
+        returnDocument: 'after', // Mongoose standard
         runValidators: true,
       }
     );
