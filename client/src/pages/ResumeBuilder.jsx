@@ -150,8 +150,7 @@ const changeResumeVisibility = async () => {
     typeof resumeData.personal_info.image==='object' && formData.append("image",resumeData.personal_info.image)
     
     // 🔥 THE FIX: Change quotes to backticks and add /${resumeId}
-    const{data}=await api.put(`/api/resumes/update/${resumeId}`,formData,{headers:{Authorization:token}})
-    
+const {data} = await api.put(`/api/resumes/update/${resumeId}`, formData, {headers:{Authorization: `Bearer ${token}`}})    
     setResumeData(data.resume)
     toast.success(data.message)
   } catch (error) {
