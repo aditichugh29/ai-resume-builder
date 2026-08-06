@@ -132,33 +132,34 @@ const changeResumeVisibility = async () => {
     contentRef: resumeRef, // Pass the ref directly like this
     documentTitle: resumeData?.title || 'My_Resume',
   });
- const saveResume=async()=>
- {
-  console.log("Save button clicked, running saveResume...");
-  try {
-    let updatedResumeData=structuredClone(resumeData)
+ const saveResume = async () => {
+   console.log("Save button clicked, running saveResume...");
+   try {
+     let updatedResumeData = structuredClone(resumeData);
 
-    //remove image
-    if(typeof resumeData.personal_info.image==='object')
-    {
-      delete updatedResumeData.personal_info.image
-    }
-    const formData=new FormData();
-    // You don't necessarily need this next line anymore since it's going in the URL, but it doesn't hurt!
-    formData.append("resumeId",resumeId) 
-    formData.append('resumeData',JSON.stringify(updatedResumeData))
-    removeBackground && formData.append("removeBackground","yes");
-    typeof resumeData.personal_info.image==='object' && formData.append("image",resumeData.personal_info.image)
-    
-    // 🔥 THE FIX: Change quotes to backticks and add /${resumeId}
-const {data}=await api.put(`/api/resumes/update/${resumeId}`,formData,{headers:{Authorization: `Bearer ${token}`}});   setResumeData(data.resume)
-    toast.success(data.message)
-  }  catch (error) {
-    const backendMessage = error.response?.data?.message || error.message;
-    console.error("Backend rejected the save because:", error.response?.data);
-    toast.error(backendMessage); // 👈 Yeh error seedha screen par la dega
-  }
- }
+     // remove image
+     if (typeof resumeData.personal_info.image === 'object') {
+       delete updatedResumeData.personal_info.image;
+     }
+
+     const formData = new FormData();
+     formData.append("resumeId", resumeId);
+     formData.append('resumeData', JSON.stringify(updatedResumeData));
+     removeBackground && formData.append("removeBackground", "yes");
+     typeof resumeData.personal_info.image === 'object' && formData.append("image", resumeData.personal_info.image);
+
+     const { data } = await api.put(`/api/resumes/update/${resumeId}`, formData, {
+       headers: { Authorization: `Bearer ${token}` }
+     });
+
+     setResumeData(data.resume);
+     toast.success(data.message);
+   } catch (error) {
+     const backendMessage = error.response?.data?.message || error.message;
+     console.error("Backend rejected the save because:", error.response?.data);
+     toast.error(backendMessage);
+   }
+ };
   return (
     <div>
       {/* Back Button */}
