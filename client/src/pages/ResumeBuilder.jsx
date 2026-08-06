@@ -134,6 +134,7 @@ const changeResumeVisibility = async () => {
   });
  const saveResume=async()=>
  {
+  console.log("Save button clicked, running saveResume...");
   try {
     let updatedResumeData=structuredClone(resumeData)
 
@@ -154,13 +155,10 @@ const {data} = await api.put(`/api/resumes/update/${resumeId}`, formData, {heade
     setResumeData(data.resume)
     toast.success(data.message)
   } catch (error) {
-    // This will print the actual error from the backend instead of a generic Axios error
-    const backendMessage = error.response?.data?.message || error.message;
-    console.error("Backend rejected the save because:", error.response?.data);
-    
-    // Optional: show it in a toast so you can see it on the screen!
-    // toast.error(backendMessage); 
-  }
+  const backendMessage = error.response?.data?.message || error.message;
+  console.error("Backend rejected the save because:", error.response?.data);
+  toast.error(backendMessage); // 👈 Isko active kar dein
+}
  }
   return (
     <div>
