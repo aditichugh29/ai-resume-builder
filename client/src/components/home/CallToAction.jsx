@@ -1,4 +1,4 @@
-import React from 'react'
+*/import React from 'react'
 
 const CallToAction = () => {
   return (
@@ -15,3 +15,4 @@ const CallToAction = () => {
 }
 
 export default CallToAction
+*/
