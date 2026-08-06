@@ -133,6 +133,7 @@ const changeResumeVisibility = async () => {
     documentTitle: resumeData?.title || 'My_Resume',
   });
  const saveResume = async () => {
+  console.log("Current Form State before saving:", resumeData.personal_info);
    console.log("Save button clicked, running saveResume...");
    try {
      let updatedResumeData = structuredClone(resumeData);
