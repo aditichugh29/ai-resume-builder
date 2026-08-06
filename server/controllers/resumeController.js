@@ -127,13 +127,22 @@ export const updateResume = async (req, res) => {
     const { resumeData, removeBackground } = req.body;
     const image = req.file;
 
-    let resumeDataCopy = {};
+   
+let resumeDataCopy = {};
     if (resumeData) {
       resumeDataCopy = typeof resumeData === 'string' 
         ? JSON.parse(resumeData) 
         : structuredClone(resumeData);
     }
 
+    // 🔥 Fix: Dono fields (fullName aur full_name) ko sync kar do taaki khali na rahe
+    if (resumeDataCopy.personal_info) {
+      if (resumeDataCopy.personal_info.full_name && !resumeDataCopy.personal_info.fullName) {
+        resumeDataCopy.personal_info.fullName = resumeDataCopy.personal_info.full_name;
+      } else if (resumeDataCopy.personal_info.fullName && !resumeDataCopy.personal_info.full_name) {
+        resumeDataCopy.personal_info.full_name = resumeDataCopy.personal_info.fullName;
+      }
+    }
     // Security: Prevent users from overriding critical database fields
     delete resumeDataCopy.userId;
     delete resumeDataCopy._id;
