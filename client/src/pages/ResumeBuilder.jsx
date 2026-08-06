@@ -132,20 +132,10 @@ const changeResumeVisibility = async () => {
     contentRef: resumeRef, // Pass the ref directly like this
     documentTitle: resumeData?.title || 'My_Resume',
   });
- const saveResume = async () => {
-  console.log("Current Form State before saving:", resumeData.personal_info);
+const saveResume = async () => {
    console.log("Save button clicked, running saveResume...");
    try {
      let updatedResumeData = structuredClone(resumeData);
-
-     // 🔥 FIX: Ensure that whatever name is in personal_info goes securely as 'fullName'
-     if (updatedResumeData.personal_info) {
-       const typedName = updatedResumeData.personal_info.fullName || updatedResumeData.personal_info.full_name;
-       if (typedName) {
-         updatedResumeData.personal_info.fullName = typedName;
-         delete updatedResumeData.personal_info.full_name; // Faltu key hatao
-       }
-     }
 
      // remove image
      if (typeof resumeData.personal_info.image === 'object') {
@@ -162,15 +152,9 @@ const changeResumeVisibility = async () => {
        headers: { Authorization: `Bearer ${token}` }
      });
 
-     // 🔥 Safe State Update: Agar backend se fullName khali aaye, toh aapka type kiya hua naam hi screen par bana rahe
-     setResumeData(prev => ({
-       ...data.resume,
-       personal_info: {
-         ...data.resume?.personal_info,
-         fullName: data.resume?.personal_info?.fullName || prev.personal_info.fullName
-       }
-     }));
-
+     // 🔥 INSTANT FIX: Backend ko save karne do, aur screen par wahi dikhao jo aapne type kiya hai
+     setResumeData(updatedResumeData);
+     
      toast.success(data.message || "Saved successfully!");
    } catch (error) {
      const backendMessage = error.response?.data?.message || error.message;
