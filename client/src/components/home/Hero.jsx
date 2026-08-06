@@ -94,7 +94,7 @@ export const Hero = () => {
                     <p className="max-w-md text-center text-base my-7">Create,edit and download professional Resumes with AI-powered assistance.</p>
 
                     {/* CTA Buttons */}
-                    <div className="flex items-center gap-4 ">
+          /*          <div className="flex items-center gap-4 ">
                         <Link to='/app' className="bg-green-500 hover:bg-green-600 text-white rounded-full px-9 h-12 m-1 ring-offset-2 ring-1 ring-green-400 flex items-center transition-colors">
                             Get started
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-right ml-1 size-4" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
@@ -104,7 +104,7 @@ export const Hero = () => {
                             <span>Try demo</span>
                         </button>
                     </div>
-
+*/
                     <p className="py-6 text-slate-600 mt-14">Trusting by leading brands, including</p>
 
                     <div className="flex flex-wrap justify-between max-sm:justify-center gap-6 max-w-3xl w-full mx-auto py-4" id="logo-container">

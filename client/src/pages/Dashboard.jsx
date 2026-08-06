@@ -88,7 +88,7 @@ const Dashboard = () => {
 
             // 2. If no text found, trigger OCR Fallback (Slower but reads images)
             if (extractedText.trim().length === 0) {
-              
+                console.log("No text layer found. Switching to OCR...");
                 toast("Image PDF detected. Running OCR scanner... this may take a moment.", { icon: '🔍' });
                 setLoadingStatus("Running OCR Scanner...");
 
