@@ -33,9 +33,10 @@ const ExperienceForm = ({ data, onChange }) => {
     try {
       setGeneratingIndex(index); 
       
-      const prompt = `You are an expert resume writer. Enhance this job description: "${experience.description}" for the position of ${experience.position} at ${experience.company}. 
-Make it sound professional, highlight achievements, use strong action verbs, and keep it ATS-friendly.
-CRITICAL INSTRUCTION: Return ONLY the enhanced bullet points. DO NOT include any introductory text. Just give me the raw text.`;
+const prompt = `You are an expert resume writer. Enhance this job description: "${experience.description}" for the position of ${experience.position} at ${experience.company}. 
+Make it sound professional, highlight achievements, use strong action verbs, and keep it ATS-friendly. 
+CRITICAL INSTRUCTION: Enhance ONLY what is provided. Do NOT invent, make up, or hallucinate any fake metrics, awards, or job duties that are not mentioned in the original text.
+Return ONLY the enhanced bullet points. DO NOT include any introductory text. Just give me the raw text.`;
 
       const response = await api.post(
         '/api/ai/enhance-job-desc',
