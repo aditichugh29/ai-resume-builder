@@ -120,6 +120,8 @@ export const getPublicResumeById = async (req, res) => {
 // PUT: /api/resume/update/:resumeId
 export const updateResume = async (req, res) => {
   try {
+    console.log("Incoming Body:", req.body); // 👈 Yeh add karein
+    console.log("Incoming File:", req.file); // 👈 Yeh bhi
     const userId = req.userId;
     const { resumeId } = req.params;
     const { resumeData, removeBackground } = req.body;
