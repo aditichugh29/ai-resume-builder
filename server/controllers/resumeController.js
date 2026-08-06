@@ -137,9 +137,10 @@ export const updateResume = async (req, res) => {
 
     // 🔥 Schema Fix: Ensure strict mapping to Mongoose Schema (`fullName`)
     if (resumeDataCopy.personal_info) {
-      const correctName = resumeDataCopy.personal_info.fullName || resumeDataCopy.personal_info.full_name || "Aditi Chugh";
-      resumeDataCopy.personal_info.fullName = correctName;
-      
+      const correctName = resumeDataCopy.personal_info.fullName || resumeDataCopy.personal_info.full_name || "";
+      if (correctName) {
+        resumeDataCopy.personal_info.fullName = correctName;
+      }
       // Delete the extra underscore field so MongoDB doesn't save unwanted keys
       delete resumeDataCopy.personal_info.full_name;
     }
@@ -185,11 +186,12 @@ export const updateResume = async (req, res) => {
       }
     }
 
-    const updatedResume = await Resume.findOneAndUpdate(
-      { _id: resumeId, userId },
+    // 🔥 Force Update using findByIdAndUpdate to bypass strict query mismatches
+    const updatedResume = await Resume.findByIdAndUpdate(
+      resumeId,
       { $set: updateFields }, 
       {
-        returnDocument: 'after', // Mongoose standard
+        returnDocument: 'after',
         runValidators: true,
       }
     );
