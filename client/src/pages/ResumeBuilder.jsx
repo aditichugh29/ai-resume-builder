@@ -137,6 +137,15 @@ const changeResumeVisibility = async () => {
    try {
      let updatedResumeData = structuredClone(resumeData);
 
+     // 🔥 FIX: Ensure that whatever name is in personal_info goes securely as 'fullName'
+     if (updatedResumeData.personal_info) {
+       const typedName = updatedResumeData.personal_info.fullName || updatedResumeData.personal_info.full_name;
+       if (typedName) {
+         updatedResumeData.personal_info.fullName = typedName;
+         delete updatedResumeData.personal_info.full_name; // Faltu key hatao
+       }
+     }
+
      // remove image
      if (typeof resumeData.personal_info.image === 'object') {
        delete updatedResumeData.personal_info.image;
@@ -152,8 +161,16 @@ const changeResumeVisibility = async () => {
        headers: { Authorization: `Bearer ${token}` }
      });
 
-     setResumeData(data.resume);
-     toast.success(data.message);
+     // 🔥 Safe State Update: Agar backend se fullName khali aaye, toh aapka type kiya hua naam hi screen par bana rahe
+     setResumeData(prev => ({
+       ...data.resume,
+       personal_info: {
+         ...data.resume?.personal_info,
+         fullName: data.resume?.personal_info?.fullName || prev.personal_info.fullName
+       }
+     }));
+
+     toast.success(data.message || "Saved successfully!");
    } catch (error) {
      const backendMessage = error.response?.data?.message || error.message;
      console.error("Backend rejected the save because:", error.response?.data);
