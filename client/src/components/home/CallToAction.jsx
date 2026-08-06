@@ -13,6 +13,5 @@ const CallToAction = () => {
         </div>
   )
 }
-
-export default CallToAction
 */
+export default CallToAction
