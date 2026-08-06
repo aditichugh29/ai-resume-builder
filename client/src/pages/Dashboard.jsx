@@ -139,7 +139,7 @@ const Dashboard = () => {
         }
 
         setIsLoading(false);
-        setLoadingStatus("Uploading...");
+        setLoadingStatus("Upload...");
     };
 
     const editTitle = async (event) => {
