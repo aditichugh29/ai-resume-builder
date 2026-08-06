@@ -63,10 +63,10 @@ const ResumeBuilder = () => {
 
   const activeSection = sections[activeSectionIndex];
 
-  const loadExistingResume = async () => {
+ const loadExistingResume = async () => {
     try {
       const { data } = await api.get(`/api/resumes/get/${resumeId}`, {
-        headers: { Authorization: token }
+        headers: { Authorization: `Bearer ${token}` } // 👈 Yahan `Bearer ` add kar dein
       });
       
       if (data.resume) {
