@@ -26,7 +26,7 @@ const Dashboard = () => {
     const [resume, setResume] = useState(null);
     const [editResumeId, setEditResumeId] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [loadingStatus, setLoadingStatus] = useState("Uploading..."); // New state for OCR status
+    const [loadingStatus, setLoadingStatus] = useState("Upload..."); // New state for OCR status
     const navigate = useNavigate();
 
     const loadAllResumes = async () => {
@@ -119,7 +119,7 @@ const Dashboard = () => {
                 return;
             }
 
-            setLoadingStatus("Saving to database...");
+            setLoadingStatus("Saving to Database...");
 
             const { data } = await api.post(
                 "/api/ai/upload-resume",
