@@ -161,14 +161,27 @@ export const updateResume = async (req, res) => {
       fs.unlinkSync(image.path);
     }
 
- const updatedResume = await Resume.findOneAndUpdate(
-  { _id: resumeId, userId },
-  { $set: resumeDataCopy }, 
-  {
-    returnDocument: 'after', // ✅ Naya aur sahi tareeqa
-    runValidators: true,
-  }
- );
+    // 🔥 Fix: Flatten nested personal_info fields using dot notation for MongoDB
+    let updateFields = {};
+    for (let key in resumeDataCopy) {
+      if (key === 'personal_info' && typeof resumeDataCopy.personal_info === 'object') {
+        for (let subKey in resumeDataCopy.personal_info) {
+          updateFields[`personal_info.${subKey}`] = resumeDataCopy.personal_info[subKey];
+        }
+      } else {
+        updateFields[key] = resumeDataCopy[key];
+      }
+    }
+
+    const updatedResume = await Resume.findOneAndUpdate(
+      { _id: resumeId, userId },
+      { $set: updateFields }, 
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
     if (!updatedResume) {
       return res.status(404).json({ message: "Resume not found" });
     }
