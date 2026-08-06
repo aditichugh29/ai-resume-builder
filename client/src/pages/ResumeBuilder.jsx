@@ -151,13 +151,13 @@ const changeResumeVisibility = async () => {
     typeof resumeData.personal_info.image==='object' && formData.append("image",resumeData.personal_info.image)
     
     // 🔥 THE FIX: Change quotes to backticks and add /${resumeId}
-const {data}=await api.put(`/api/resumes/update/${resumeId}`,formData,{headers:{Authorization: `Bearer ${token}`}})    setResumeData(data.resume)
+const {data}=await api.put(`/api/resumes/update/${resumeId}`,formData,{headers:{Authorization: `Bearer ${token}`}});   setResumeData(data.resume)
     toast.success(data.message)
-  } catch (error) {
-  const backendMessage = error.response?.data?.message || error.message;
-  console.error("Backend rejected the save because:", error.response?.data);
-  toast.error(backendMessage); // 👈 Isko active kar dein
-}
+  }  catch (error) {
+    const backendMessage = error.response?.data?.message || error.message;
+    console.error("Backend rejected the save because:", error.response?.data);
+    toast.error(backendMessage); // 👈 Yeh error seedha screen par la dega
+  }
  }
   return (
     <div>
